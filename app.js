@@ -13,11 +13,18 @@ const range = document.getElementById("jsRange");
 
 const mode = document.getElementById("jsMode");
 
+const saveBtn = document.getElementById('jsSave');
+
 const INITIAL_COLOR = "#2c2c2c";
 const CANVAS_SIZE = 700;
 
 canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
+
+//html상 init의 백그라운드가 white가 아님으로 init 해줌
+ctx.fillStyle="white";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+
 //그릴 선의 색
 ctx.strokeStyle = "INITIAL_COLOR";
 //공간에 박스 차지
@@ -100,6 +107,22 @@ function handleCanvasClick(event) {
   }
 }
 
+function hangleCM(event){
+    event.preventDefault();
+}
+
+//save 버튼 누르면 바로 저장되도록 
+function handleSaveClick(event){
+    //파일형식
+    const image = canvas.toDataURL("image/jpeg");
+    //a태그
+    const link = document.createElement("a");
+    link.href=image;
+    //파일 명
+    link.download = "PaintJS[EXPORT]"
+    link.click();
+}
+
 if (canvas) {
   //캔버스에 값이 있으면 뒤에있는 함수를 따른다.
   canvas.addEventListener("mousemove", onMonuseMove);
@@ -109,8 +132,10 @@ if (canvas) {
   canvas.addEventListener("mouseup", stopPainting);
   //캔버스에서 벗어나면 그리기 중지
   canvas.addEventListener("mouseleave", stopPainting);
-
+  //click 하면 나오는 console에서 요소 확인 가능 
   canvas.addEventListener("click", handleCanvasClick);
+  //마우스 우클릭 할수 나오는 메뉴 
+  canvas.addEventListener("contextmenu", hangleCM);
 }
 
 //색들을 배열로 가져온다. forEach를 통해 배열에 있는 값들이 addEventListener에 모두 적용되도록
@@ -124,4 +149,8 @@ if (range) {
 
 if (mode) {
   mode.addEventListener("click", handleModeClick);
+}
+
+if(saveBtn){
+  saveBtn.addEventListener("click",handleSaveClick);
 }

@@ -8,6 +8,8 @@ const ctx=canvas.getContext('2d');
 //픽셀을 다루는 사이즈가 얼마인지 canvas에게 알려준다. 픽셀 modifier
 
 const colors=document.getElementsByClassName("jsColor");
+
+const range =document.getElementById("jsRange");
 canvas.width =700;
 canvas.height =700;
 //그릴 선의 색 
@@ -60,6 +62,18 @@ function handleColorClick(event){
     ctx.strokeStyle=color;
 }
 
+//브러시의 사이즈 조정
+/*
+1. const range =document.getElementById("jsRange"); 를 통해 html에서 가져올 class 전송
+2. addEventListener를 통해 함수와 연결
+3. 함수에서 console을 통해 쓸 값을 확인하고 1번에서 가져온 변수에 담는다.
+*/
+
+function handleRangeChange(event){
+    const size= event.target.value;
+    ctx.lineWidth=size;
+}
+
 if(canvas){
     //캔버스에 값이 있으면 뒤에있는 함수를 따른다. 
     canvas.addEventListener('mousemove',onMonuseMove);
@@ -71,5 +85,13 @@ if(canvas){
     canvas.addEventListener('mouseleave',stopPainting);
 }
 
-//색들을 배열로 가져온다. addEventListener
-Array.from(colors).forEach(color=>color.addEventListener("click",handleColorClick))
+//색들을 배열로 가져온다. forEach를 통해 배열에 있는 값들이 addEventListener에 모두 적용되도록
+Array.from(colors).forEach(color=>color.addEventListener("click",handleColorClick));
+
+if(colors){
+
+}
+
+if(range){
+    range.addEventListener('input',handleRangeChange); 
+}

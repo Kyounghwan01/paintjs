@@ -6,6 +6,8 @@ const canvas=document.getElementById('jsCanvas');
 //context : canvas안에서 픽셀을 다루는 것 
 const ctx=canvas.getContext('2d');
 //픽셀을 다루는 사이즈가 얼마인지 canvas에게 알려준다. 픽셀 modifier
+
+const colors=document.getElementsByClassName("jsColor");
 canvas.width =700;
 canvas.height =700;
 //그릴 선의 색 
@@ -45,9 +47,17 @@ function onMonuseMove(event){
         ctx.stroke();
     }
 }
-function onMonuseDown(event){
-    // console.log(event);
-    painting=true;
+// function onMonuseDown(event){
+//     // console.log(event);
+//     painting=true;
+// }
+
+
+//색 바꾸는 function 
+function handleColorClick(event){
+    // console.log(event.target.style);
+    const color=event.target.style.backgroundColor;
+    ctx.strokeStyle=color;
 }
 
 if(canvas){
@@ -60,3 +70,6 @@ if(canvas){
     //캔버스에서 벗어나면 그리기 중지
     canvas.addEventListener('mouseleave',stopPainting);
 }
+
+//색들을 배열로 가져온다. addEventListener
+Array.from(colors).forEach(color=>color.addEventListener("click",handleColorClick))
